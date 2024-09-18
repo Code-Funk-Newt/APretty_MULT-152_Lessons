@@ -11,6 +11,8 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InvokeRepeating("SpawnRandomAnimal", 3.0f, 1.5f);
+
         
     }
 
@@ -18,11 +20,16 @@ public class SpawnManager : MonoBehaviour
     void Update()
     {   
         
-        if(Input.GetKeyDown(KeyCode.A)){
+
+    }
+
+    void SpawnRandomAnimal(){
+
             float randxPos = Random.Range(-xPosRange, xPosRange);
             int animalPrefabIndex = Random.Range(0, animalPrefabs.Length);
             Vector3 randPos = new Vector3(randxPos, 0, 21);
             Instantiate(animalPrefabs[animalPrefabIndex], randPos, animalPrefabs[animalPrefabIndex].transform.rotation);
-        }
     }
+        
 }
+
