@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -9,7 +12,11 @@ public class GameManager : MonoBehaviour
     private const float spawnRate = 2.0f;
 
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI gameOverText;
+    public Button restartButton;
+
     private int score = 0;
+    public bool gameActive = true;
 
 
 
@@ -20,17 +27,26 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(SpawnTarget());
         UpdateScore(0);
+
+
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+    public void GameOver(){
+
+        gameActive = false;
+        gameOverText.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(true);
+
+
+
     }
 
 
     IEnumerator SpawnTarget(){
-        while(true){
+        while(gameActive){
+
             yield return new WaitForSeconds(spawnRate);
             Instantiate(prefabs[Random.Range(0,prefabs.Count)]);
         }
@@ -43,5 +59,11 @@ public class GameManager : MonoBehaviour
         }
         scoreText.text = "Score: " + score;
 
+    }
+
+
+    public void RestartGame(){
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
